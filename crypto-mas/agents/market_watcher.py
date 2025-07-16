@@ -1,4 +1,3 @@
-# agents/market_watcher.py
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 from spade.message import Message
@@ -9,14 +8,14 @@ class MarketWatcherAgent(Agent):
         async def run(self):
             msg = Message(to="strategy@xmpp.jp")
             msg.set_metadata("performative", "inform")
-            msg.body = "BTC/USDT price: 30000" # Example price
+            msg.body = "BTC/USDT price: 30000"  # Example price
             await self.send(msg)
             print("MarketWatcher: Sent price update.")
-            await asyncio.sleep(5)  # Wait for 5 seconds before sending the next update
+            await asyncio.sleep(5)
 
-        async def setup(self):
-            print("MarketWatcher started.")
-            self.add_behaviour(self.SendPriceBehaviour())
+    async def setup(self):
+        print("MarketWatcherAgent setup.")
+        self.add_behaviour(self.SendPriceBehaviour())
 
 if __name__ == "__main__":
     async def main():
