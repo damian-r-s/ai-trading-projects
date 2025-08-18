@@ -3,6 +3,7 @@ from spade.behaviour import CyclicBehaviour
 from spade.message import Message
 import asyncio
 import aiohttp
+import json
 
 class MarketWatcherAgent(Agent):
     class SendPriceBehaviour(CyclicBehaviour):
@@ -12,7 +13,11 @@ class MarketWatcherAgent(Agent):
 
                 msg = Message(to="strategy@xmpp.jp")
                 msg.set_metadata("performative", "inform")
-                msg.body = f"BTC/USDT price: {price}"
+                msg.body = json.dumps({
+                    "type": "price",
+                    "symbol": "BTC/USDT",
+                    "price": price
+                })
                 await self.send(msg)
                 print(f"MarketWatcher: Sent price update: {price}")
             except Exception as e:

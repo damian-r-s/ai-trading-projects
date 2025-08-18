@@ -2,6 +2,7 @@
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 import asyncio
+import json
 
 class StrategyAgent(Agent):
     class ReceiveBehaviour(CyclicBehaviour):
@@ -9,7 +10,15 @@ class StrategyAgent(Agent):
             msg = await self.receive(timeout=10)  # Wait up to 10 seconds for a message
             if msg:
                 print(f"StrategyAgent received: {msg.body}")
-                # You can add your logic here
+                data = json.loads(msg.body)
+                if data.get("type") == "price":
+                    price = data.get("price")
+                    symbol = data.get("symbol")
+                    print(f"StrategyAgent: Received price for {symbol}: {price}")
+                    # Here you can implement your trading strategy logic based on the price
+                    
+                else:
+                    print("StrategyAgent: Unknown message type.")
             else:
                 print("StrategyAgent: No message received.")
 
