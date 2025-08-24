@@ -41,7 +41,7 @@ if __name__ == "__main__":
         agent = MarketWatcherAgent("marketwatcher@xmpp.jp", "Aqq1234$$")
         await agent.start()
         print("Agent started. Press Ctrl+C to stop.")
-        await asyncio.sleep(330)
+        await asyncio.sleep(1330)
         await agent.stop()
         print("Agent stopped.")
 
