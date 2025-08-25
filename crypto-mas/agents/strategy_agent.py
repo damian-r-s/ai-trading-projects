@@ -18,12 +18,12 @@ class StrategyAgent(Agent):
                     print(f"StrategyAgent: Received price for {symbol}: {price}")
 
                     self.agent.price_history.append(price)
-                    if len(self.agent.price_history) > 20:
+                    if len(self.agent.price_history) > 100:
                         self.agent.price_history.pop(0)
 
-                    short_ma = self.agent.compute_moving_average(self.agent.price_history, window_size=5)
-                    long_ma = self.agent.compute_moving_average(self.agent.price_history, window_size=10)
-                    rsi = self.agent.compute_rsi(self.agent.price_history)
+                    short_ma = self.agent.compute_moving_average(self.agent.price_history, window_size=self.agent.short_ma_window)
+                    long_ma = self.agent.compute_moving_average(self.agent.price_history, window_size=self.agent.long_ma_window)
+                    rsi = self.agent.compute_rsi(self.agent.price_history, self.agent.rsi_windows)
 
                     if rsi and short_ma and long_ma:
                         print(f"RSI: {rsi:.2f}, Short MA: {short_ma:.2f}, Long MA: {long_ma:.2f}")
@@ -84,6 +84,9 @@ class StrategyAgent(Agent):
         self.fee_percentage = 0.001
         self.last_buy_price = None
         self.in_position = False
+        self.short_ma_window = 10
+        self.long_ma_window = 30
+        self.rsi_windows = 14
         receive_behaviour = self.ReceiveBehaviour()
         self.add_behaviour(receive_behaviour)
 
