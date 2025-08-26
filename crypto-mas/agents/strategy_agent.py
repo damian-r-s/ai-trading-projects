@@ -1,6 +1,7 @@
 # agents/strategy_agent.py
 from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
+from spade.message import Message
 import asyncio
 import json
 
@@ -46,6 +47,19 @@ class StrategyAgent(Agent):
                             decision = "HOLD"
 
                         print(f"StrategyAgent: Decision based on RSI + MA: {decision}")
+
+                        # Send decision to ExecutionAgent
+                        msg_content = json.dumps({
+                            "type": "signal",
+                            "action": decision,
+                            "symbol": symbol,
+                            "price": price
+                        })
+                        signal_msg = Message(to="execution@xmpp.jp")
+                        signal_msg.set_metadata("performative", "inform")
+                        signal_msg.body = msg_content
+                        await self.send(signal_msg)
+                        print(f"StrategyAgent: Sent decision: {decision}")
                 else:
                     print("StrategyAgent: Unknown message type.")
             else:
