@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  strategy_agent:
+    build: .
+    command: python crypto-mas/agents/strategy_agent.py
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  execution_agent:
+    build: .
+    command: python crypto-mas/agents/execution_agent.py
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  market_watcher:
+    build: .
+    command: python crypto-mas/agents/market_watcher.py
+    environment:
+      - PYTHONUNBUFFERED=1
