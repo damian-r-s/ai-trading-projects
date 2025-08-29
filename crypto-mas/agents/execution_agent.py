@@ -15,7 +15,7 @@ class ExecutionAgent(Agent):
                     action = data.get("action")
                     price = data.get("price")
                     symbol = data.get("symbol")
-                    print(f"ExecutionAgent: Received decision for {symbol}: {decision} at price {price}")
+                    print(f"ExecutionAgent: Received decision for {symbol}: {action} at price {price}")
 
                     self.agent.simulate_trade(action, symbol, price)                    
                 else:
@@ -36,7 +36,7 @@ class ExecutionAgent(Agent):
     async def setup(self):
         print("ExecutionAgent setup.")
         self.last_trade = None
-        trade_behaviour = self.TradeBehaviour()
+        trade_behaviour = self.ReceiveDecisionBehaviour()
         self.add_behaviour(trade_behaviour)
 
 if __name__ == "__main__":
